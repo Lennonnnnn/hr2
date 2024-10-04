@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 }
 
 // Fetch admin data
-$sql = "SELECT id, firstname, lastname, email, role, phone_number, address FROM admin_register WHERE role='Admin'";
+$sql = "SELECT a_id, firstname, lastname, email, role, phone_number, address FROM admin_register WHERE role='Admin'";
 $result = $conn->query($sql);
 ?>
 
@@ -48,7 +48,7 @@ $result = $conn->query($sql);
                 <?php if ($result->num_rows > 0): ?>
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr class="text-center">
-                            <td><?php echo $row['id']; ?></td>
+                            <td><?php echo $row['a_id']; ?></td>
                             <td><?php echo $row['firstname']; ?></td>
                             <td><?php echo $row['lastname']; ?></td>
                             <td><?php echo $row['email']; ?></td>
@@ -56,8 +56,8 @@ $result = $conn->query($sql);
                             <td><?php echo $row['phone_number']; ?></td>
                             <td><?php echo $row['address']; ?></td>
                             <td>
-                                <button class="btn btn-success btn-sm" onclick="fillUpdateForm(<?php echo $row['id']; ?>, '<?php echo $row['firstname']; ?>', '<?php echo $row['lastname']; ?>', '<?php echo $row['email']; ?>', '<?php echo $row['role']; ?>', '<?php echo $row['phone_number']; ?>', '<?php echo $row['address']; ?>')">Update</button>
-                                <button class="btn btn-danger btn-sm" onclick="deleteAdmin(<?php echo $row['id']; ?>)">Delete</button>
+                                <button class="btn btn-success btn-sm" onclick="fillUpdateForm(<?php echo $row['a_id']; ?>, '<?php echo $row['firstname']; ?>', '<?php echo $row['lastname']; ?>', '<?php echo $row['email']; ?>', '<?php echo $row['role']; ?>', '<?php echo $row['phone_number']; ?>', '<?php echo $row['address']; ?>')">Update</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteAdmin(<?php echo $row['a_id']; ?>)">Delete</button>
                             </td>
                         </tr>
                     <?php endwhile; ?>

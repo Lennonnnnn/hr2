@@ -8,11 +8,12 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #f0f0f0;
+            background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(25, 25, 112, 1) 50%, rgba(138, 43, 226, 1) 100%);
             padding: 50px;
         }
         h1 {
             margin-bottom: 30px;
+            animation: rainbowText 3s linear infinite; /* Rainbow animation for text */
         }
         .button-container {
             display: flex;
@@ -44,14 +45,35 @@
         .login-button.employee:hover {
             background-color: #e0a800;
         }
+        .text-light {
+            color: #f8f9fa; /* Light color */
+            font-weight: lighter; /* Optional for a lighter weight */
+        }
+
+        @keyframes rainbowText {
+            0% { color: red; }
+            14% { color: orange; }
+            28% { color: yellow; }
+            42% { color: green; }
+            57% { color: blue; }
+            71% { color: indigo; }
+            85% { color: violet; }
+            100% { color: red; }
+        }
     </style>
 </head>
 <body>
 
-    <h1>Select Login Type</h1>
+    <h1 class="text-light">Select Login Type</h1>
     <div class="button-container">
-        <button class="login-button admin" onclick="location.href='../main/adminlogin.php'">Admin Login</button>
-        <button class="login-button employee" onclick="location.href='../e_portal/employee_login.php'">Employee Login</button>
+        <button class="login-button admin" 
+                onmouseover="this.innerText='Thirdy Pogi'" 
+                onmouseout="this.innerText='Admin Login'" 
+                onclick="location.href='../main/adminlogin.php'">Admin Login</button>
+        <button class="login-button employee" 
+                onmouseover="this.innerText='Thirdy Mabaho '" 
+                onmouseout="this.innerText='Employee Login'" 
+                onclick="location.href='../e_portal/employee_login.php'">Employee Login</button>
     </div>
 
 </body>

@@ -26,7 +26,7 @@ if (empty($id)) {
 }
 
 // Prepare and execute SQL statement for deleting
-$sql = "DELETE FROM registeradmin_db WHERE id=?";
+$sql = "DELETE FROM admin_register WHERE a_id=?";
 $stmt = $conn->prepare($sql);
 
 if ($stmt === false) {

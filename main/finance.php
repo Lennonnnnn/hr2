@@ -47,9 +47,9 @@ $conn->close();
     <link href="../css/finance.css" rel="stylesheet">
 </head>
 
-<body>
-    <h2>Finance Department Employee Evaluation</h2>
-    <div class="container">
+<body class="bg-secondary">
+    <h2 class="text-light">Finance Department Employee Evaluation</h2>
+        <div class="container">
         <table class="table table-striped table-hover text-dark">
             <thead>
                 <tr>

@@ -1,8 +1,8 @@
 // Sample data
 let attendanceRecords = [
-    { id: 1, name: 'John Doe', date: '2024-04-20', status: 'Present' },
-    { id: 2, name: 'Jane Smith', date: '2024-04-20', status: 'Absent' },
-    { id: 3, name: 'Alice Johnson', date: '2024-04-20', status: 'Late' },
+    { id: 1, name: 'Superman', date: '2024-04-20', status: 'Present' },
+    { id: 2, name: 'Microne', date: '2024-04-20', status: 'Absent' },
+    { id: 3, name: 'Thirdy', date: '2024-04-20', status: 'Late' },
 ];
 
 // Function to render attendance records

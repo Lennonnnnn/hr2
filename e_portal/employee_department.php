@@ -24,14 +24,14 @@
             padding: 0; /* Remove padding */
         }
         .sidebar a {
-            color: white; /* Yellow text */
+            color: #ffc107; /* Yellow text */
             text-decoration: none;
             display: flex; /* Use flexbox for centering */
             align-items: center; /* Center vertically */
             justify-content: center; /* Center horizontally */
             margin: 10px 0;
             padding: 15px; /* Increased padding for better touch target */
-            border: 1px solid white; /* Yellow border */
+            border: 1px solid #ffc107; /* Yellow border */
             border-radius: 5px;
             transition: transform 0.3s, opacity 0.3s;
             transform: translateX(0);
@@ -54,7 +54,7 @@
         }
         .toggle-btn {
             cursor: pointer;
-            color: white;
+            color: #ffc107;
             font-size: 20px;
             margin-left: 15px; /* Indent toggle button */
         }

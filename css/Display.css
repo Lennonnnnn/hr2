@@ -15,7 +15,7 @@ body {
 }
 
 header {
-    background-color: #4CAF50;
+    background-color: #505550;
     color: white;
     padding: 20px 0;
     text-align: center;
@@ -60,7 +60,7 @@ select {
 }
 
 button[type="submit"] {
-    background-color: #4CAF50;
+    background-color: #000000;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -69,7 +69,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #212421;
 }
 
 table {
@@ -78,7 +78,7 @@ table {
 }
 
 thead {
-    background-color: #4CAF50;
+    background-color: #2a2b2a;
     color: white;
 }
 

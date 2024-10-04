@@ -6,32 +6,89 @@
     <title>Leave Request Form</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: black;
+        }
+        .container {
+            background-color: #343a40;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #ffffff;
+            animation: rainbowText 3s linear infinite; /* Rainbow animation for text */
+        }
+        label {
+            color: #ffffff;
+        }
+        .form-control {
+            height: 38px; /* Reduced height for shorter input fields */
+        }
+        .form-group {
+            margin-bottom: 15px; /* Reduced bottom margin for compactness */
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+        }
+        .btn-primary:hover {
+            animation: rainbow 1s linear infinite; /* Start rainbow animation */
+            border-color: #0056b3;
+            transform: scale(1.05); /* Scale effect on hover */
+            box-shadow: 0 4px 20px rgba(0, 123, 255, 0.5); /* Box shadow on hover */
+        }
+
+        @keyframes rainbow {
+            0% { background-color: red; }
+            14% { background-color: orange; }
+            28% { background-color: yellow; }
+            42% { background-color: green; }
+            57% { background-color: blue; }
+            71% { background-color: indigo; }
+            85% { background-color: violet; }
+            100% { background-color: red; }
+        }
+
+        @keyframes rainbowText {
+            0% { color: red; }
+            14% { color: orange; }
+            28% { color: yellow; }
+            42% { color: green; }
+            57% { color: blue; }
+            71% { color: indigo; }
+            85% { color: violet; }
+            100% { color: red; }
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5 bg-dark">
-        <h2 class="mb-4 text-light text-center">Leave Request Form</h2>
-        <!-- Leave Request Form -->
+    <div class="container mt-5">
+        <h2 class="mb-4 text-center">Leave Request Form</h2>
         <form id="leaveForm" action="submit_leave.php" method="post">
-            <div class="form-group text-light">
+            <div class="form-group">
                 <label for="employee_name">Employee Name:</label>
                 <input type="text" class="form-control" id="employee_name" name="employee_name" required>
             </div>
 
-            <div class="form-group text-light">
+            <div class="form-group">
                 <label for="employee_id">Employee ID:</label>
                 <input type="text" class="form-control" id="employee_id" name="employee_id" required>
             </div>
 
-            <div class="form-group text-light">
+            <div class="form-group">
                 <label for="Department">Department:</label>
                 <select id="Department" name="Department" class="form-control" required>
-                    <option value="Marketing and Business Department">Marketing and Business Department</option>
-                    <option value="Finance and Accounting Department">Finance and Accounting Department</option>
-                    <option value="Human Resources Department">Human Resources Department</option>
-                    <option value="Customer Service and Service Dep">Customer Service and Service Department</option>
+                    <option value="Marketing and Business Department">Marketing</option>
+                    <option value="Finance and Accounting Department">Finance</option>
+                    <option value="Human Resources Department">HR</option>
+                    <option value="Customer Service and Service Department">Customer Service</option>
                 </select>
+            </div>
 
-            <div class="form-group text-light">
+            <div class="form-group">
                 <label for="leave_type">Type of Leave:</label>
                 <select id="leave_type" name="leave_type" class="form-control" required>
                     <option value="Sick Leave">Sick Leave</option>
@@ -41,23 +98,22 @@
                 </select>
             </div>
 
-            <div class="form-group text-light">
+            <div class="form-group">
                 <label for="start_date">Start Date:</label>
                 <input type="date" class="form-control" id="start_date" name="start_date" required>
             </div>
 
-            <div class="form-group text-light">
+            <div class="form-group">
                 <label for="end_date">End Date:</label>
                 <input type="date" class="form-control" id="end_date" name="end_date" required>
             </div>
 
-            <div class="form-group text-light">
+            <div class="form-group">
                 <label for="reason">Reason:</label>
-                <textarea id="reason" name="reason" class="form-control" rows="4" required></textarea>
+                <textarea id="reason" name="reason" class="form-control" rows="3" required></textarea>
             </div>
 
-            <!-- Button to trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmationModal">
+            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#confirmationModal">
                 Submit Leave Request
             </button>
         </form>
@@ -106,23 +162,15 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-
         document.getElementById('confirmSubmit').addEventListener('click', function() {
-            // Hide the confirmation modal
             $('#confirmationModal').modal('hide');
-            
-            // Show the waiting for approval modal
             $('#waitingForApprovalModal').modal('show');
         });
 
         document.getElementById('okayButton').addEventListener('click', function() {
-            // Hide the waiting for approval modal
             $('#waitingForApprovalModal').modal('hide');
-            
-            // Submit the form
             document.getElementById('leaveForm').submit();
         });
-        
     </script>
 </body>
 </html>

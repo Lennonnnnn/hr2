@@ -3,7 +3,7 @@ session_start();
 
 // Assume $adminId is fetched from the database during login
 if ($loginSuccessful) {
-    $_SESSION['admin_id'] = $adminId; // Set admin ID in session
+    $_SESSION['e_id'] = $emlpoyeeId; // Set admin ID in session
     // Redirect to dashboard or another page
     header("Location: ../e_portal/employee_dashboard.php");
     exit();

@@ -36,7 +36,7 @@
                                     <div class="certificate-body">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <img src="pogi.jpg" alt="Employee Picture" class="img-fluid rounded-circle">
+                                                <img src="../pogi.jpg" alt="Employee Picture" class="img-fluid rounded-circle">
                                             </div>
                                         </div>
                                         <div class="row">
@@ -65,7 +65,7 @@
                                     <div class="certificate-body">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <img src="pogi.jpg" alt="Employee Picture" class="img-fluid rounded-circle">
+                                                <img src="../pogi.jpg" alt="Employee Picture" class="img-fluid rounded-circle">
                                             </div>
                                         </div>
                                         <div class="row">
@@ -94,7 +94,8 @@
                                     <div class="certificate-body">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <img src="pogi.jpg" alt="Employee Picture" class="img-fluid rounded-circle">
+                                            <img src="../pogi.jpg" alt="Employee Picture" class="img-fluid rounded-circle">
+
                                             </div>
                                         </div>
                                         <div class="row">
