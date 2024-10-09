@@ -62,15 +62,15 @@
 </head>
 <body>
     <div class="container">
-        <h1 style="color: #ffff00;">Leave Tracker</h1>
+        <h1 style="color: white;">Leave Tracker</h1>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th style="color: #ffff00;">Employee ID</th>
-                    <th style="color: #ffff00;">Name</th>
-                    <th style="color: #ffff00;">Role</th>
-                    <th style="color: #ffff00;">Department</th>
-                    <th style="color: #ffff00;">Remaining Leave</th>
+                    <th style="color: lightblue">Employee ID</th>
+                    <th style="color: lightblue">Name</th>
+                    <th style="color: lightblue">Role</th>
+                    <th style="color: lightblue">Department</th>
+                    <th style="color: lightblue">Remaining Leave</th>
                 </tr>
             </thead>
             <tbody id="leave-table">

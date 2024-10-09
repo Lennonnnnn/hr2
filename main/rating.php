@@ -42,6 +42,16 @@
         .employee-card .rating-display {
             margin-top: 10px;
         }
+        /* Raised button effect */
+        .btn-raise {
+            position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-raise:hover {
+            transform: translateY(-5px); /* Raise effect */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
+        }
     </style>
 </head>
 <body class="bg-dark">
@@ -68,13 +78,18 @@
                 </div>
                 <input type="hidden" id="employee-rating" required>
             </div>
-            <button type="submit" class="btn btn-primary">Add Employee</button>
+            <button type="submit" class="btn btn-primary btn-raise">Add Employee</button>
         </form>
 
         <div id="employee-container" class="row">
             <!-- Employee cards will be added here dynamically -->
         </div>
     </div>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {

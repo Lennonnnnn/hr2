@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 30, 2024 at 01:05 PM
+-- Generation Time: Oct 09, 2024 at 01:13 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,37 +24,44 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `leave_request`
+-- Table structure for table `leave_allocations`
 --
 
-CREATE TABLE `leave_request` (
-  `id` int(11) NOT NULL,
-  `e_name` char(255) NOT NULL,
-  `leave_type` varchar(25) NOT NULL,
-  `start_date` varchar(25) NOT NULL,
-  `end_date` date NOT NULL,
-  `reason` text NOT NULL
+CREATE TABLE `leave_allocations` (
+  `crdt_id` int(11) NOT NULL,
+  `role` varchar(255) NOT NULL,
+  `leave_days` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `leave_allocations`
+--
+
+INSERT INTO `leave_allocations` (`crdt_id`, `role`, `leave_days`) VALUES
+(1, 'Admin', 25),
+(2, 'Employee', 20),
+(3, 'Admin', 25),
+(4, 'Employee', 20);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `leave_request`
+-- Indexes for table `leave_allocations`
 --
-ALTER TABLE `leave_request`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `leave_allocations`
+  ADD PRIMARY KEY (`crdt_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `leave_request`
+-- AUTO_INCREMENT for table `leave_allocations`
 --
-ALTER TABLE `leave_request`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `leave_allocations`
+  MODIFY `crdt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

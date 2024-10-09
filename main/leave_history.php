@@ -8,7 +8,7 @@ if (!isset($_SESSION['a_id'])) {
 }
 
 // Fetch employee ID from the session
-$e_id = $_SESSION['e_id'];
+$employeeId = $_SESSION['e_id'];
 
 // Check if there is a search term
 $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
@@ -51,6 +51,17 @@ $result = $stmt->get_result();
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet">
     <link href="../css/styles.css" rel="stylesheet" />
 </head>
+<style>
+    .btn-raise {
+            position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-raise:hover {
+            transform: translateY(-5px); /* Raise effect */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
+        }
+</style>
 <body class="bg-dark">
     <div class="container">
         <h2 class="text-center mt-5 text-light">Leave History</h2>
@@ -60,7 +71,7 @@ $result = $stmt->get_result();
             <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="Search by Employee Name, Leave ID, etc." value="<?php echo htmlspecialchars($searchTerm); ?>">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary bg-light" type="submit">Search</button>
+                    <button class="btn btn-outline-secondary bg-primary text-light btn-raise" type="submit">Search</button>
                 </div>
             </div>
         </form>
@@ -73,10 +84,8 @@ $result = $stmt->get_result();
                     <th>Employee Name</th>
                     <th>Leave ID</th>
                     <th>Leave Type</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
+                    <th>Duration of Leave</th>
                     <th>Status</th>
-                    <th>Reason</th>
                     <th>Date of Request</th>
                 </tr>
             </thead>
@@ -88,8 +97,8 @@ $result = $stmt->get_result();
                         <td><?php echo htmlspecialchars($row['firstname'] . ' ' . $row['lastname']); ?></td>
                         <td><?php echo htmlspecialchars($row['leave_id']); ?></td>
                         <td><?php echo htmlspecialchars($row['leave_type']); ?></td>
-                        <td><?php echo htmlspecialchars($row['start_date']); ?></td>
-                        <td><?php echo htmlspecialchars($row['end_date']); ?></td>
+                        <td><?php echo htmlspecialchars($row['start_date'] . ' '. $row['end_date']); ?></td>
+                        
                         <td class="bold-status <?php 
     if (htmlspecialchars($row['status']) === 'Approved') {
         echo 'text-success';
@@ -101,7 +110,6 @@ $result = $stmt->get_result();
     <?php echo htmlspecialchars($row['status']); ?>
 </td>
 
-                        <td><?php echo htmlspecialchars($row['reason']); ?></td>
                         <td><?php echo htmlspecialchars($row['created_at']); ?></td>
                     </tr>
                     <?php endwhile; ?>
@@ -114,7 +122,7 @@ $result = $stmt->get_result();
         </table>
     </div>
         <div class="text-center mb-5">
-            <a href="../main/index.php" class="btn btn-primary">Back to Dashboard</a>
+            <a href="../main/index.php" class="btn btn-primary btn-raise">Back to Dashboard</a>
         </div>
     </div>
 </body>

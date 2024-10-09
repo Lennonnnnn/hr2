@@ -11,7 +11,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
+   <style>
+    .btn-raise {
+            position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
 
+        .btn-raise:hover {
+            transform: translateY(-5px); /* Raise effect */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
+        }
+   </style>
 <body class="bg-dark">
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
@@ -91,7 +101,7 @@
                                         </div>
                                         <div class="mt-4 mb-0">
                                             <div class="d-grid">
-                                                <button class="btn btn-primary btn-block" type="submit">Create Account</button>
+                                                <button class="btn btn-primary btn-block btn-raise" type="submit">Create Account</button>
                                             </div>
                                         </div>
                                     </form>

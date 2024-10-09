@@ -29,81 +29,92 @@ $result = $conn->query($sql);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
-<body>
-    <div class="container mt-5">
-        <h2 class="mb-4">Employee Account Management</h2>
-        <table class="table table-bordered">
-            <thead class="thead-light">
-                <tr class="text-center">
-                    <th>ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Phone Number</th>
-                    <th>Address</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if ($result->num_rows > 0): ?>
-                    <?php while ($row = $result->fetch_assoc()): ?>
-                        <tr class="text-center">
-                            <td><?php echo $row['id']; ?></td>
-                            <td><?php echo $row['firstname']; ?></td>
-                            <td><?php echo $row['lastname']; ?></td>
-                            <td><?php echo $row['email']; ?></td>
-                            <td><?php echo $row['role']; ?></td>
-                            <td><?php echo $row['phone_number']; ?></td>
-                            <td><?php echo $row['address']; ?></td>
-                            <td>
-                                <button class="btn btn-success btn-sm" onclick="fillUpdateForm(<?php echo $row['id']; ?>, '<?php echo $row['firstname']; ?>', '<?php echo $row['lastname']; ?>', '<?php echo $row['email']; ?>', '<?php echo $row['role']; ?>', '<?php echo $row['phone_number']; ?>', '<?php echo $row['address']; ?>')">Update</button>
-                                <button class="btn btn-danger btn-sm" onclick="deleteEmployee(<?php echo $row['id']; ?>)">Delete</button>
-                            </td>
-                        </tr>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <tr><td colspan="8" class="text-center">No records found.</td></tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+<style>
+    .btn-raise {
+            position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
 
-        <h2 class="mt-5">Update Employee Account</h2>
-<form id="updateForm">
-    <input type="hidden" name="id" id="updateId">
-    <div class="form-floating mb-3 mb-md-0 form-group">
-        <label for="firstname">First Name</label>
-        <input type="text" class=" form-control" name="firstname" placeholder="First Name" required>
-    </div>
-    <div class="form-group">
-        <label for="lastname">Last Name</label>
-        <input type="text" class="form-control" name="lastname" placeholder="Last Name" required>
-    </div>
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" name="email" placeholder="Email" required>
-    </div>
-    <div class="form-group">
-                <label for="role">Role</label>
-                <select class="form-control" name="role" required>
-                    <option value="" disabled selected>Select a role</option>
-                    <option value="Admin">Admin</option>
-                    <option value="Employee">Employee</option>
-                </select>
-    </div>
-    <div class="form-group">
-        <label for="phone_number">Phone Number</label>
-        <input type="text" class="form-control" name="phone_number" placeholder="Phone Number" required>
-    </div>
-    <div class="form-group">
-        <label for="address">Address</label>
-        <input type="text" class="form-control" name="address" placeholder="Address" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Update</button>
-    <a href="../main/index.php" class="btn btn-primary float-right">Back</a>
-</form>
+        .btn-raise:hover {
+            transform: translateY(-5px); /* Raise effect */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
+        }
+</style>
+<body class="bg-dark">
+<div class="container mt-5 text-light"> <!-- Add text-light class here -->
+    <h2 class="mb-4">Employee Account Management</h2>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr class="text-center">
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if ($result->num_rows > 0): ?>
+                <?php while ($row = $result->fetch_assoc()): ?>
+                    <tr class="text-center">
+                        <td><?php echo $row['id']; ?></td>
+                        <td><?php echo $row['firstname']; ?></td>
+                        <td><?php echo $row['lastname']; ?></td>
+                        <td><?php echo $row['email']; ?></td>
+                        <td><?php echo $row['role']; ?></td>
+                        <td><?php echo $row['phone_number']; ?></td>
+                        <td><?php echo $row['address']; ?></td>
+                        <td>
+                            <button class="btn btn-success btn-sm" onclick="fillUpdateForm(<?php echo $row['id']; ?>, '<?php echo $row['firstname']; ?>', '<?php echo $row['lastname']; ?>', '<?php echo $row['email']; ?>', '<?php echo $row['role']; ?>', '<?php echo $row['phone_number']; ?>', '<?php echo $row['address']; ?>')">Update</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteEmployee(<?php echo $row['id']; ?>)">Delete</button>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <tr><td colspan="8" class="text-center text-light">No records found.</td></tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
 
-    </div>
+    <h2 class="mt-5">Update Employee Account</h2>
+    <form id="updateForm">
+        <input type="hidden" name="id" id="updateId">
+        <div class="form-floating mb-3 mb-md-0 form-group">
+            <label for="firstname">First Name</label>
+            <input type="text" class="form-control" name="firstname" placeholder="First Name" required>
+        </div>
+        <div class="form-group">
+            <label for="lastname">Last Name</label>
+            <input type="text" class="form-control" name="lastname" placeholder="Last Name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" name="email" placeholder="Email" required>
+        </div>
+        <div class="form-group">
+            <label for="role">Role</label>
+            <select class="form-control" name="role" required>
+                <option value="" disabled selected>Select a role</option>
+                <option value="Admin">Admin</option>
+                <option value="Employee">Employee</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="phone_number">Phone Number</label>
+            <input type="text" class="form-control" name="phone_number" placeholder="Phone Number" required>
+        </div>
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" name="address" placeholder="Address" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-raise">Update</button>
+        <a href="../main/index.php" class="btn btn-primary btn-raise float-right">Back</a>
+    </form>
+</div>
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

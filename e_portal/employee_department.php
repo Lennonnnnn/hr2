@@ -50,7 +50,8 @@
         }
         .sidebar a:hover {
             text-decoration: underline;
-            background-color: rgba(255, 255, 255, 0.1); /* Hover effect */
+            background-color: gray;
+            color: white; /* Hover effect */
         }
         .toggle-btn {
             cursor: pointer;
@@ -67,6 +68,17 @@
         .content.collapsed {
             margin-left: 0; /* Adjust margin when sidebar is collapsed */
         }
+        .btn-raise {
+            position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-raise:hover {
+            transform: translateY(-5px); /* Raise effect */
+           
+        }
+
+
     </style>
 </head>
 <body>
@@ -74,13 +86,13 @@
         <div class="sidebar" id="sidebar">
             <span class="toggle-btn text-decoration-none" onclick="toggleSidebar()">&#x276E;</span>
             <h4>Departments</h4>
-            <a href="../e_portal/e_finance.php">Finance</a>
-            <a href="../e_portal/e_hr.php">Human Resources</a>
-            <a href="../e_portal/e_operations.php">Operations</a>
-            <a href="../e_portal/e_risk.php">Risk</a>
-            <a href="../e_portal/e_marketing.php">Marketing</a>
-            <a href="../e_portal/e_it.php">IT</a>
-        </div>
+            <a href="../e_portal/e_finance.php" class="btn-raise btn">Finance</a>
+            <a href="../e_portal/e_hr.php" class="btn-raise btn">Human Resources</a>
+            <a href="../e_portal/e_operations.php" class="btn-raise btn">Operations</a>
+            <a href="../e_portal/e_risk.php" class="btn-raise btn">Risk</a>
+            <a href="../e_portal/e_marketing.php" class="btn-raise btn">Marketing</a>
+            <a href="../e_portal/e_it.php" class="btn-raise btn">IT</a>
+                </div>
         <div class="content" id="content">
             <h1 class="text-center">Company Dashboard</h1>
             <p class="text-center">Select a department from the sidebar.</p>

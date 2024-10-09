@@ -69,6 +69,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Set Leave Allocations</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        /* Button Styles */
+        .btn-raise {
+            position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for both effects */
+        }
+
+        .btn-raise:hover {
+            transform: translateY(-3px); /* Raise effect */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Optional shadow effect */
+        }
+    </style>
 </head>
 <body class="bg-dark">
     <div class="container">
@@ -83,14 +95,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label class="text-light" for="employee_leaves">Leave Days for Employee:</label>
                 <input type="number" name="employee_leaves" id="employee_leaves" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary">Set Allocations</button>
+            <button type="submit" class="btn btn-primary btn-raise">Set Allocations</button>
         </form>
         <div class="text-center mb-5">
-            <a href="../main/index.php" class="btn btn-secondary mt-4">Back to Dashboard</a>
+            <a href="../main/index.php" class="btn btn-primary btn-raise mt-4">Back to Dashboard</a> <!-- Added btn-raise class here -->
         </div>
     </div>
 </body>
 </html>
+
 
 <?php
 // Close the database connection

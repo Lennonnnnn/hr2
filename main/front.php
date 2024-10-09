@@ -38,6 +38,7 @@
     padding: 20px;
     border-radius: 10px;
     color: white;
+    cursor: pointer
 }
 
 .button-container button {

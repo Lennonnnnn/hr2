@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 30, 2024 at 01:03 PM
+-- Generation Time: Oct 09, 2024 at 01:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -38,6 +38,7 @@ CREATE TABLE `admin_register` (
   `role` varchar(100) NOT NULL,
   `position` varchar(255) NOT NULL,
   `department` varchar(255) NOT NULL,
+  `available_leaves` int(11) NOT NULL,
   `phone_number` varchar(20) NOT NULL,
   `address` text NOT NULL,
   `pfp` longblob NOT NULL
@@ -47,9 +48,8 @@ CREATE TABLE `admin_register` (
 -- Dumping data for table `admin_register`
 --
 
-INSERT INTO `admin_register` (`a_id`, `firstname`, `middlename`, `lastname`, `birthdate`, `email`, `password`, `role`, `position`, `department`, `phone_number`, `address`, `pfp`) VALUES
-(1, 'Wendel', '', 'Ureta', '2024-09-26', 'uretawendel@gmail.com', '$2y$10$45m8xWpFr7LfY34PabAD4./bwp7AIDHwo2gHdVnMTSYgSoboJlwS6', 'Admin', '', '', '09123456789', 'Caloocan', ''),
-(2, 'Admin', '', 'Test', '2024-09-29', 'admin1@gmail.com', '$2y$10$h/Z4BTnh7WKMibT6PHhgz.8Qtix5e1cKMAlXHEm9uRJ0EYny5y2.O', 'Admin', '', '', '09123456789', 'Caloocan', '');
+INSERT INTO `admin_register` (`a_id`, `firstname`, `middlename`, `lastname`, `birthdate`, `email`, `password`, `role`, `position`, `department`, `available_leaves`, `phone_number`, `address`, `pfp`) VALUES
+(1, 'Wendel', '', 'Ureta', '2024-09-26', 'uretawendel@gmail.com', '$2y$10$45m8xWpFr7LfY34PabAD4./bwp7AIDHwo2gHdVnMTSYgSoboJlwS6', 'Admin', '', '', 25, '09123456789', 'Caloocan', '');
 
 --
 -- Indexes for dumped tables

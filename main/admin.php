@@ -28,9 +28,39 @@ $result = $conn->query($sql);
     <title>Admin Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<style>
+    .btn-raise {
+            position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-raise:hover {
+            transform: translateY(-5px); /* Raise effect */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
+        }
+        .table thead th {
+            color: #343a40; /* Darker color for table headers */
+        }
+
+        .table tbody td {
+            color: #f8f9fa; /* Light color for table body text */
+        }
+        .form-group label {
+            color: #f8f9fa; /* Light color for labels */
+        }
+
+        .form-control {
+            color: #f8f9fa; /* Light color for input text */
+            background-color: #343a40; /* Darker background for input fields for contrast */
+        }
+
+        .form-control::placeholder {
+            color: #adb5bd; /* Light gray color for placeholder text */
+        }
+</style>
+<body class="bg-dark">
     <div class="container mt-5">
-        <h2 class="mb-4">Admin Account Management</h2>
+        <h2 class="mb-4 text-light">Admin Account Management</h2>
         <table class="table table-bordered">
             <thead class="thead-light">
                 <tr class="text-center">
@@ -56,8 +86,8 @@ $result = $conn->query($sql);
                             <td><?php echo $row['phone_number']; ?></td>
                             <td><?php echo $row['address']; ?></td>
                             <td>
-                                <button class="btn btn-success btn-sm" onclick="fillUpdateForm(<?php echo $row['a_id']; ?>, '<?php echo $row['firstname']; ?>', '<?php echo $row['lastname']; ?>', '<?php echo $row['email']; ?>', '<?php echo $row['role']; ?>', '<?php echo $row['phone_number']; ?>', '<?php echo $row['address']; ?>')">Update</button>
-                                <button class="btn btn-danger btn-sm" onclick="deleteAdmin(<?php echo $row['a_id']; ?>)">Delete</button>
+                                <button class="btn btn-success btn-sm btn-raise" onclick="fillUpdateForm(<?php echo $row['a_id']; ?>, '<?php echo $row['firstname']; ?>', '<?php echo $row['lastname']; ?>', '<?php echo $row['email']; ?>', '<?php echo $row['role']; ?>', '<?php echo $row['phone_number']; ?>', '<?php echo $row['address']; ?>')">Update</button>
+                                <button class="btn btn-danger btn-sm btn-raise" onclick="deleteAdmin(<?php echo $row['a_id']; ?>)">Delete</button>
                             </td>
                         </tr>
                     <?php endwhile; ?>
@@ -67,7 +97,7 @@ $result = $conn->query($sql);
             </tbody>
         </table>
 
-        <h2 class="mt-5">Update Admin Account</h2>
+        <h2 class="mt-5 text-light">Update Admin Account</h2>
         <form id="updateForm">
             <input type="hidden" name="id" id="updateId">
             <div class="form-group">
@@ -98,8 +128,8 @@ $result = $conn->query($sql);
                 <label for="address">Address</label>
                 <input type="text" class="form-control" name="address" placeholder="Address" required>
             </div>
-            <button type="submit" class="btn btn-primary">Update</button>
-            <a href="../main/index.php" class="btn btn-primary float-right">Back</a>
+            <button type="submit" class="btn btn-primary btn-raise">Update</button>
+            <a href="../main/index.php" class="btn btn-primary float-right btn-raise">Back</a>
         </form>
     </div>
 

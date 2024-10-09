@@ -35,6 +35,17 @@ $conn->close();
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
+ <style>
+    .btn-raise {
+            position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-raise:hover {
+            transform: translateY(-5px); /* Raise effect */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
+        }
+ </style>
 <body class="bg-dark text-warning">
     <div class="container">
         <div class="row justify-content-center">
@@ -86,15 +97,12 @@ $conn->close();
                             <option value="Family Leave">Family Leave</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="reason" class="text-light">Reason for Leave:</label>
-                        <textarea class="form-control text-dark" id="reason" name="reason" placeholder="Enter the reason for your leave" required></textarea>
-                    </div>
+
                     <div class="text-center">
-                        <button type="submit" class="btn btn-dark border border-light">Submit Leave</button>
+                        <button type="submit" class="btn btn-dark border border-light btn-raise">Submit Leave</button>
                     </div>
                     <div class="text-center mt-3">
-                        <a class="btn btn-dark border border-light" href="../e_portal/leave_balance.php">Check Remaining Leave</a>
+                        <a class="btn btn-dark border border-light btn-raise" href="../e_portal/leave_balance.php">Check Remaining Leave</a>
                     </div>
                 </form>
             </div>

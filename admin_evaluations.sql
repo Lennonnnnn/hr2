@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 30, 2024 at 01:02 PM
+-- Generation Time: Oct 09, 2024 at 01:11 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,6 +31,7 @@ CREATE TABLE `admin_evaluations` (
   `id` int(10) UNSIGNED NOT NULL,
   `a_id` int(11) NOT NULL,
   `e_id` int(10) UNSIGNED NOT NULL,
+  `department` varchar(255) NOT NULL,
   `quality` decimal(3,2) NOT NULL,
   `communication_skills` decimal(3,2) NOT NULL,
   `teamwork` decimal(3,2) NOT NULL,
@@ -42,11 +43,12 @@ CREATE TABLE `admin_evaluations` (
 -- Dumping data for table `admin_evaluations`
 --
 
-INSERT INTO `admin_evaluations` (`id`, `a_id`, `e_id`, `quality`, `communication_skills`, `teamwork`, `punctuality`, `initiative`) VALUES
-(1, 0, 2, 4.00, 3.67, 4.67, 4.33, 4.67),
-(2, 1, 2, 3.00, 3.67, 4.67, 3.33, 4.33),
-(3, 1, 3, 3.33, 3.33, 4.33, 3.33, 3.33),
-(4, 2, 2, 4.00, 4.00, 4.33, 5.00, 4.00);
+INSERT INTO `admin_evaluations` (`id`, `a_id`, `e_id`, `department`, `quality`, `communication_skills`, `teamwork`, `punctuality`, `initiative`) VALUES
+(1, 1, 2, 'Finance Department', 3.67, 4.67, 3.67, 3.67, 4.33),
+(2, 1, 3, 'Finance Department', 4.33, 4.00, 4.33, 4.00, 5.00),
+(3, 1, 4, 'Finance Department', 3.33, 3.67, 3.00, 3.67, 4.67),
+(4, 1, 5, 'Finance Department', 4.00, 5.00, 5.00, 4.67, 5.00),
+(5, 1, 8, 'Finance Department', 4.67, 5.00, 5.00, 4.33, 5.00);
 
 --
 -- Indexes for dumped tables
@@ -67,7 +69,7 @@ ALTER TABLE `admin_evaluations`
 -- AUTO_INCREMENT for table `admin_evaluations`
 --
 ALTER TABLE `admin_evaluations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
