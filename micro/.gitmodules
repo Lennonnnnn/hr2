@@ -1,3 +1,0 @@
-[submodule "vendor/phpmailer/phpmailer"]
-    path = vendor/phpmailer/phpmailer
-    url = <url-to-phpmailer-repo>
