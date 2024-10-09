@@ -1,5 +1,6 @@
 <?php
 
+/*
 include("database.php");
 
 $sql = "SELECT * FROM  users";
@@ -16,6 +17,7 @@ else{
   echo"No user found";
 }
 mysqli_close($conn);
+*/
 ?>
 
 
