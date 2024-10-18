@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 09, 2024 at 01:14 PM
+-- Generation Time: Oct 18, 2024 at 03:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -53,11 +53,11 @@ INSERT INTO `leave_requests` (`leave_id`, `e_id`, `start_date`, `end_date`, `lea
 (8, 4, '2024-10-07', '2024-10-12', 'Sick Leave', 'ret', 'Approved', '2024-10-05 14:41:09'),
 (9, 4, '2024-10-05', '2024-10-08', 'Sick Leave', 'sa', 'Approved', '2024-10-05 15:41:27'),
 (10, 1, '2024-10-07', '2024-10-12', 'Family Leave', 'try', 'Denied', '2024-10-06 04:08:44'),
-(11, 1, '2024-10-07', '2024-10-11', 'Annual Leave', 'try', 'Pending', '2024-10-06 14:20:12'),
-(12, 1, '2024-10-22', '2024-10-31', 'Annual Leave', 'sick', 'Pending', '2024-10-07 20:36:07'),
+(11, 1, '2024-10-07', '2024-10-11', 'Annual Leave', 'try', 'Approved', '2024-10-06 14:20:12'),
+(12, 1, '2024-10-22', '2024-10-31', 'Annual Leave', 'sick', 'Approved', '2024-10-07 20:36:07'),
 (13, 1, '2024-10-14', '2024-10-16', 'Annual Leave', 'try', 'Approved', '2024-10-08 09:21:17'),
-(14, 1, '2024-10-14', '2024-10-16', 'Family Leave', 'try', 'Pending', '2024-10-08 09:23:49'),
-(15, 1, '2024-12-24', '2024-12-28', 'Family Leave', 'try', 'Pending', '2024-10-08 09:32:29'),
+(14, 1, '2024-10-14', '2024-10-16', 'Family Leave', 'try', 'Denied', '2024-10-08 09:23:49'),
+(15, 1, '2024-12-24', '2024-12-28', 'Family Leave', 'try', 'Approved', '2024-10-08 09:32:29'),
 (16, 1, '2024-10-15', '2024-11-02', 'Family Leave', 'try', 'Pending', '2024-10-08 14:45:20');
 
 --

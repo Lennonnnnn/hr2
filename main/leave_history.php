@@ -40,6 +40,15 @@ $stmt->execute();
 // Fetch the result
 $result = $stmt->get_result();
 
+$holidays = [];
+$holiday_sql = "SELECT date FROM non_working_days";
+$holiday_stmt = $conn->prepare($holiday_sql);
+$holiday_stmt->execute();
+$holiday_result = $holiday_stmt->get_result();
+while ($holiday_row = $holiday_result->fetch_assoc()) {
+    $holidays[] = $holiday_row['date']; // Store holidays in an array
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -51,40 +60,30 @@ $result = $stmt->get_result();
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet">
     <link href="../css/styles.css" rel="stylesheet" />
 </head>
-<style>
-    .btn-raise {
-            position: relative;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .btn-raise:hover {
-            transform: translateY(-5px); /* Raise effect */
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
-        }
-</style>
 <body class="bg-dark">
     <div class="container">
-        <h2 class="text-center mt-5 text-light">Leave History</h2>
+        <h2 class="text-center mt-3 text-light">Leave History</h2>
         
         <!-- Search Form -->
         <form method="GET" class="mb-4">
             <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="Search by Employee Name, Leave ID, etc." value="<?php echo htmlspecialchars($searchTerm); ?>">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary bg-primary text-light btn-raise" type="submit">Search</button>
+                    <button class="btn btn-outline-secondary bg-light" type="submit">Search</button>
                 </div>
             </div>
         </form>
     
     <div class="border-radius-lg overflow-hidden">
-        <table class="table table-bordered border mt-3 text-center text-light .rounded">
+        <table class="table table-bordered border mt-1 text-center text-light .rounded">
             <thead>
                 <tr>
                     <th>Employee ID</th>
                     <th>Employee Name</th>
                     <th>Leave ID</th>
-                    <th>Leave Type</th>
                     <th>Duration of Leave</th>
+                    <th>Reason</th>
+                    <th>Leave Deduction</th>
                     <th>Status</th>
                     <th>Date of Request</th>
                 </tr>
@@ -92,24 +91,35 @@ $result = $stmt->get_result();
             <tbody>
                 <?php if ($result->num_rows > 0): ?>
                     <?php while ($row = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($row['e_id']); ?></td>
-                        <td><?php echo htmlspecialchars($row['firstname'] . ' ' . $row['lastname']); ?></td>
-                        <td><?php echo htmlspecialchars($row['leave_id']); ?></td>
-                        <td><?php echo htmlspecialchars($row['leave_type']); ?></td>
-                        <td><?php echo htmlspecialchars($row['start_date'] . ' '. $row['end_date']); ?></td>
+                        <?php
+                            // Calculate total leave days excluding Sundays and holidays
+                            $leave_days = 0;
+                            $current_date = strtotime($row['start_date']);
+                            $end_date = strtotime($row['end_date']);
                         
+                            while ($current_date <= $end_date) {
+                            $current_date_str = date('Y-m-d', $current_date);
+                            // Check if the current day is not a Sunday (0 = Sunday) and not a holiday
+                            if (date('N', $current_date) != 7 && !in_array($current_date_str, $holidays)) {
+                                $leave_days++; // Count this day as a leave day
+                            }
+                            $current_date = strtotime("+1 day", $current_date); // Move to the next day
+                            }
+                        ?>
+                    <tr>
+                        <td>e<?php echo htmlspecialchars($row['e_id']); ?></td>
+                        <td><?php echo htmlspecialchars($row['firstname'] . ' ' . $row['lastname']); ?></td>
+                        <td>#<?php echo htmlspecialchars($row['leave_id']); ?></td>
+                        <td><?php echo htmlspecialchars($row['start_date'] . ' / ' . $row['end_date']); ?></td>
+                        <td><?php echo htmlspecialchars($row['leave_type']); ?></td>
+                        <td><?php echo htmlspecialchars($leave_days); ?> day/s</td>
                         <td class="bold-status <?php 
-    if (htmlspecialchars($row['status']) === 'Approved') {
-        echo 'text-success';
-    } elseif (htmlspecialchars($row['status']) === 'Denied') {
-        echo 'text-danger';
-    } elseif (htmlspecialchars($row['status']) === 'Pending') {
-        echo 'text-warning';
-    } ?>">
-    <?php echo htmlspecialchars($row['status']); ?>
-</td>
-
+                            if (htmlspecialchars($row['status']) === 'Approved') {echo 'text-success';
+                            } elseif (htmlspecialchars($row['status']) === 'Denied') { echo 'text-danger';
+                            } elseif (htmlspecialchars($row['status']) === 'Pending') { echo 'text-warning'; } 
+                            ?>" style="font-weight: bold;">
+                            <?php echo htmlspecialchars($row['status']); ?>
+                        </td>
                         <td><?php echo htmlspecialchars($row['created_at']); ?></td>
                     </tr>
                     <?php endwhile; ?>
@@ -122,7 +132,7 @@ $result = $stmt->get_result();
         </table>
     </div>
         <div class="text-center mb-5">
-            <a href="../main/index.php" class="btn btn-primary btn-raise">Back to Dashboard</a>
+            <a href="../main/index.php" class="btn btn-primary">Back to Dashboard</a>
         </div>
     </div>
 </body>

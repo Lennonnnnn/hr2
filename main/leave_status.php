@@ -118,17 +118,6 @@ if (isset($_GET['leave_id']) && isset($_GET['status'])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
-<style>
-    .btn-raise {
-            position: relative;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .btn-raise:hover {
-            transform: translateY(-5px); /* Raise effect */
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
-        }
-</style>
 <body class="bg-dark">
     <div class="container">
         <?php if (isset($_GET['status'])): ?>
@@ -198,10 +187,10 @@ if (isset($_GET['leave_id']) && isset($_GET['status'])) {
                         </td>
                         <td>
                                 <div class="col row no-gutters">
-                                    <button class="btn btn-success btn-block btn-raise" onclick="confirmAction('approve', <?php echo $row['leave_id']; ?>)">Approve</button>
+                                    <button class="btn btn-success btn-block" onclick="confirmAction('approve', <?php echo $row['leave_id']; ?>)">Approve</button>
                                 </div>
                                 <div class="col row no-gutters">
-                                    <button class="btn btn-danger btn-block btn-raise mt-3" onclick="confirmAction('deny', <?php echo $row['leave_id']; ?>)">Deny</button>
+                                    <button class="btn btn-danger btn-block" onclick="confirmAction('deny', <?php echo $row['leave_id']; ?>)">Deny</button>
                                 </div>
                         </td>
                     </tr>
@@ -214,7 +203,7 @@ if (isset($_GET['leave_id']) && isset($_GET['status'])) {
             </tbody>
         </table>
         <div class="text-center mb-5">
-            <a href="../main/index.php" class="btn btn-primary btn-raise">Back to Dashboard</a>
+            <a href="../main/index.php" class="btn btn-primary">Back to Dashboard</a>
         </div>
     </div>
 

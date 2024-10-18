@@ -21,10 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $startDate = $_POST['start_date'];
     $endDate = $_POST['end_date'];
     $leaveType = $_POST['leave_type'];
-    $reason = $_POST['reason'];
-
+    
     // Validate form data (check for empty fields)
-    if (empty($startDate) || empty($endDate) || empty($leaveType) || empty($reason)) {
+    if (empty($startDate) || empty($endDate) || empty($leaveType)) {
         die("Error: Please fill in all required fields.");
     }
 
@@ -34,14 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Prepare the SQL query to insert the leave request
-    $sql = "INSERT INTO leave_requests (e_id, start_date, end_date, leave_type, reason, status)
-            VALUES (?, ?, ?, ?, ?, 'pending')";
+    $sql = "INSERT INTO leave_requests (e_id, start_date, end_date, leave_type, status)
+            VALUES (?, ?, ?, ?, 'pending')";
 
     $stmt = $conn->prepare($sql);
 
     if ($stmt) {
         // Bind parameters and execute the query
-        $stmt->bind_param('issss', $employeeId, $startDate, $endDate, $leaveType, $reason);
+        $stmt->bind_param('isss', $employeeId, $startDate, $endDate, $leaveType);
         $stmt->execute();
 
         // Check if the insertion was successful

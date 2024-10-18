@@ -7,23 +7,11 @@ if (!isset($_SESSION['a_id'])) {
     exit();
 }
 
-// Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "hr2";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include '../db/db_conn.php';
 
 // Fetch user info
 $adminId = $_SESSION['a_id'];
-$sql = "SELECT firstname, middlename, lastname, email, role FROM admin_register WHERE a_id = ?";
+$sql = "SELECT firstname, middlename, lastname, email, role, pfp FROM admin_register WHERE a_id = ?";
 $stmt = $conn->prepare($sql);
 
 // Check if statement preparation failed
@@ -39,7 +27,7 @@ $result = $stmt->get_result();
 $adminInfo = $result->fetch_assoc();
 
 // Set profile picture or use default if not set
-$profilePicture = !empty($adminInfo['pfp']) ? $adminInfo['ppf'] : '../img/defaultpfp.png';
+$profilePicture = !empty($adminInfo['pfp']) ? $adminInfo['pfp'] : '../img/defaultpfp.png';
 
 // Close statement and connection
 $stmt->close();
@@ -57,272 +45,333 @@ $conn->close();
     <meta name="author" content="" />
     <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
     <link href="../css/styles.css" rel="stylesheet" />
+    <link href="../css/calendar.css" rel="stylesheet"/>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
   </head>
 
-<body class="sb-nav-fixed bg-dark">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-secondary border border-light">
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark border-bottom border-1 border-warning bg-dark">
         <a class="navbar-brand ps-3 text-light" href="../main/index.php">Microfinance</a>
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars text-light"></i></button>
-           <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                </div>
-           </form>
-        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-             <li class="nav-item text-dark d-flex flex-column align-items-start">
-                 <span class="big text-light mb-1">
-                    <?php
-                      if ($adminInfo) {
-                      echo htmlspecialchars($adminInfo['firstname'] . ' ' . $adminInfo['middlename'] . ' ' . $adminInfo['lastname']);
-                      } else {
-                      echo "Admin information not available.";
-                      }
-                    ?>
-                 </span>      
-                 <span class="big text-light">
-                    <?php
-                      if ($adminInfo) {
-                      echo htmlspecialchars($adminInfo['role']);
-                      } else {
-                      echo "User information not available.";
-                      }
-                    ?>
-                 </span>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-dark" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="../img/defaultpfp.png" class="rounded-circle border border-dark" width="40" height="40" />
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="../main/profile.php">Profile</a></li>
-                    <li><a class="dropdown-item" href="#!">Settings</a></li>
-                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="../main/adminlogout.php" onclick="confirmLogout(event)">Logout</a></li>
-                </ul>
-            </li>
-        </ul>
+    
+    <!-- Flex container to hold both time/date and search form -->
+        <div class="d-flex ms-auto me-0 me-md-3 my-2 my-md-0 align-items-center">
+            <div class="text-light me-3 p-2 rounded shadow-sm bg-gradient" id="currentTimeContainer" 
+            style="background: linear-gradient(45deg, #333333, #444444); border-radius: 5px;">
+                <span class="d-flex align-items-center">
+                    <span class="pe-2">
+                        <i class="fas fa-clock"></i> 
+                        <span id="currentTime">00:00:00</span>
+                    </span>
+                    <button class="btn btn-outline-warning btn-sm ms-2" type="button" onclick="toggleCalendar()">
+    <i class="fas fa-calendar-alt"></i>
+    <span id="currentDate">00/00/0000</span>
+</button>
+                </span>
+            </div>
+            <form class="d-none d-md-inline-block form-inline">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+            </div>
+            </form>
+        </div>
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <nav class="sb-sidenav accordion bg-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu ">
                     <div class="nav">
-                        <div class="sb-sidenav-menu-heading text-center bg-secondary text-light">Logo</div>
-                        <a class="nav-link" href="../main/index.php">
+                        <div class="sb-sidenav-menu-heading text-center text-muted">Your Profile</div>
+                        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                            <li class="nav-item dropdown text">
+                                <a class="nav-link dropdown-toggle text-light d-flex justify-content-center ms-4" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="../img/defaultpfp.png" class="rounded-circle border border-dark" width="120" height="120" />
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="../main/profile.php">Profile</a></li>
+                                    <li><a class="dropdown-item" href="#!">Settings</a></li>
+                                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li><a class="dropdown-item" href="../main/adminlogout.php" onclick="confirmLogout(event)">Logout</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item text-light d-flex ms-3 flex-column align-items-center text-center">
+                                <span class="big text-light mb-1">
+                                    <?php
+                                        if ($adminInfo) {
+                                        echo htmlspecialchars($adminInfo['firstname'] . ' ' . $adminInfo['middlename'] . ' ' . $adminInfo['lastname']);
+                                        } else {
+                                        echo "Admin information not available.";
+                                        }
+                                    ?>
+                                </span>      
+                                <span class="big text-light">
+                                    <?php
+                                        if ($adminInfo) {
+                                        echo htmlspecialchars($adminInfo['role']);
+                                        } else {
+                                        echo "User information not available.";
+                                        }
+                                    ?>
+                                </span>
+                            </li>
+                        </ul>
+                        <div class="sb-sidenav-menu-heading text-center text-muted border-top border-1 border-warning mt-3">Admin Dashboard</div>
+                        <a class="nav-link text-light" href="../main/index.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTAD" aria-expanded="false" aria-controls="collapseTAD">
+                        <a class="nav-link collapsed text-light" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTAD" aria-expanded="false" aria-controls="collapseTAD">
                             <div class="sb-nav-link-icon"><i class="fa fa-address-card"></i></div>
                             Time and Attendance
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="collapseTAD" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="../main/tad_display.php">Attendance Report</a>
-                                <a class="nav-link" href="../main/tad_timesheet.php">Timesheet</a>
+                                <a class="nav-link text-light" href="../main/tad_display.php">Attendance Report</a>
+                                <a class="nav-link text-light" href="../main/tad_timesheet.php">Timesheet</a>
                             </nav>
                         </div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLM" aria-expanded="false" aria-controls="collapseLM">
+                        <a class="nav-link collapsed text-light" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLM" aria-expanded="false" aria-controls="collapseLM">
                             <div class="sb-nav-link-icon"><i class="fas fa-calendar-times"></i></div>
                             Leave Management
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="collapseLM" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="../main/leave_status.php">Leave Status</a>
-                                <a class="nav-link" href="../main/leave_history.php">Leave History</a>
-                                <a class="nav-link" href="../main/leave_allocation.php">Set Leave</a>
+                                <a class="nav-link text-light" href="../main/leave_status.php">Leave Status</a>
+                                <a class="nav-link text-light" href="../main/leave_history.php">Leave History</a>
+                                <a class="nav-link text-light"  href="../main/leave_allocation.php">Set Leave</a>
                             </nav>
                         </div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePM" aria-expanded="false" aria-controls="collapsePM">
+                        <a class="nav-link collapsed text-light" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePM" aria-expanded="false" aria-controls="collapsePM">
                             <div class="sb-nav-link-icon"><i class="fas fa-line-chart"></i></div>
                             Performance Management
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="collapsePM" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="../main/admin_department.php">Evaluation</a>
+                                <a class="nav-link text-light" href="../main/admin_department.php">Evaluation</a>
                             </nav>
                         </div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSR" aria-expanded="false" aria-controls="collapseSR">
+                        <a class="nav-link collapsed text-light" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSR" aria-expanded="false" aria-controls="collapseSR">
                             <div class="sb-nav-link-icon"><i class="fa fa-address-card"></i></div>
                             Social Recognition
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="collapseSR" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="../main/rating.php">View Ratings</a>
+                                <a class="nav-link text-light" href="../main/rating.php">View Ratings</a>
                             </nav>
                         </div>
-                        <div class="sb-sidenav-menu-heading text-center bg-secondary text-light">Account Management</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-sidenav-menu-heading text-center text-muted border-top border-1 border-warning">Account Management</div>
+                        <a class="nav-link collapsed text-light" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                             Accounts
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="../main/admin.php">Admin Accounts</a>
-                                <a class="nav-link" href="../main/registeradmin.php">Create Admin</a>
-                                <a class="nav-link" href="../main/employee.php">Employee Accounts</a>
-                                <a class="nav-link" href="../main/register_employee.php">Create Employee</a>
+                                <a class="nav-link text-light" href="../main/calendar.php">Calendar</a>
+                                <a class="nav-link text-light" href="../main/admin.php">Admin Accounts</a>
+                                <a class="nav-link text-light" href="../main/employee.php">Employee Accounts</a>
                             </nav>
                         </div>
                         <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                         </div>
-                        <div class="sb-sidenav-menu-heading bg-secondary text-light text-center">Addons</div>
-                        <a class="nav-link" href="../main/charts.php">
+                        <div class="sb-sidenav-menu-heading text-muted text-center border-top border-1 border-warning">Addons</div>
+                        <a class="nav-link text-light" href="../main/charts.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Charts
                         </a>
-                        <a class="nav-link" href="../main/tables.php">
+                        <a class="nav-link text-light" href="../main/tables.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Tables
                         </a>
                     </div>
                 </div>
-                <div class="sb-sidenav-footer">
+                <div class="sb-sidenav-footer text-light border-top border-1 border-warning">
                     <div class="small">Logged in as: <?php echo htmlspecialchars($adminInfo['firstname'] . ' ' . $adminInfo['lastname']); ?></div>
                 </div>
             </nav>
         </div>
         <div id="layoutSidenav_content">
-            <main>
-                <div class="container-fluid px-4">
-                    <h1 class="mt-4 text-light">Dashboard</h1>
-                    <div class="row">
-                        <div class="col-xl-6">
-                            <div class="card mb-4">
-                                <div class="card-header">
-                                    <i class="fas fa-chart-area me-1"></i>
-                                    Area Chart Example
-                                </div>
-                                <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
-                            </div>
-                        </div>
-                        <div class="col-xl-6">
-                            <div class="card mb-4">
-                                <div class="card-header">
-                                    <i class="fas fa-chart-bar me-1"></i>
-                                    Bar Chart Example
-                                </div>
-                                <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-table me-1"></i>
-                            DataTable Example
-                        </div>
-                        <div class="card-body">
-                            <table id="datatablesSimple">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
-                                    </tr>
-                                </tfoot>
-                                <tbody>
-                                    <tr>
-                                        <td>Zorita Serrano</td>
-                                        <td>Software Engineer</td>
-                                        <td>San Francisco</td>
-                                        <td>56</td>
-                                        <td>2012/06/01</td>
-                                        <td>$115,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jennifer Acosta</td>
-                                        <td>Junior Javascript Developer</td>
-                                        <td>Edinburgh</td>
-                                        <td>43</td>
-                                        <td>2013/02/01</td>
-                                        <td>$75,650</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cara Stevens</td>
-                                        <td>Sales Assistant</td>
-                                        <td>New York</td>
-                                        <td>46</td>
-                                        <td>2011/12/06</td>
-                                        <td>$145,600</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Hermione Butler</td>
-                                        <td>Regional Director</td>
-                                        <td>London</td>
-                                        <td>47</td>
-                                        <td>2011/03/21</td>
-                                        <td>$356,250</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Lael Greer</td>
-                                        <td>Systems Administrator</td>
-                                        <td>London</td>
-                                        <td>21</td>
-                                        <td>2009/02/27</td>
-                                        <td>$103,500</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jonas Alexander</td>
-                                        <td>Developer</td>
-                                        <td>San Francisco</td>
-                                        <td>30</td>
-                                        <td>2010/07/14</td>
-                                        <td>$86,500</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Shad Decker</td>
-                                        <td>Regional Director</td>
-                                        <td>Edinburgh</td>
-                                        <td>51</td>
-                                        <td>2008/11/13</td>
-                                        <td>$183,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Michael Bruce</td>
-                                        <td>Javascript Developer</td>
-                                        <td>Singapore</td>
-                                        <td>29</td>
-                                        <td>2011/06/27</td>
-                                        <td>$183,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Donna Snider</td>
-                                        <td>Customer Support</td>
-                                        <td>New York</td>
-                                        <td>27</td>
-                                        <td>2011/01/25</td>
-                                        <td>$112,000</td>
-                                    </tr>
-                                </tbody>
+        <main class="bg-black">
+    <div class="container-fluid position-relative px-4">
+        <h1 class="mt-4 text-light">Dashboard</h1>
+        
 
-                            </table>
-                        </div>
+        <!-- Calendar Container (Initially hidden) -->
+        <div class="container" id="calendarContainer" 
+            style="position: fixed; top: 9%; right: 0; z-index: 1050; 
+                    width: 600px; height: 300px; display: none;">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="calendar" class="p-2"></div>
+                </div>
+            </div>
+        </div>
+
+    
+          
+        <!-- Leave Request Status Section -->
+        <div class="row mb-4">
+            <div class="col-xl-6">
+                <div class="card mb-4">
+                    <div class="card-header bg-black text-light border-bottom border-1 border-warning">
+                        <i class="fas fa-chart-pie me-1"></i> 
+                        Leave Request Status
+                    </div>
+                    <div class="card-body bg-dark">
+                        <canvas id="leaveStatusChart" width="300" height="300"></canvas>
                     </div>
                 </div>
-            </main>
-            <footer class="py-4 bg-light mt-auto bg-dark">
+            </div>
+        </div>
+    </div>
+</main>
+
+            </div>
+            <div>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                DataTable Example
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Office</th>
+                            <th>Age</th>
+                            <th>Start date</th>
+                            <th>Salary</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Office</th>
+                            <th>Age</th>
+                            <th>Start date</th>
+                            <th>Salary</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <tr>
+                            <td>Zorita Serrano</td>
+                            <td>Software Engineer</td>
+                            <td>San Francisco</td>
+                            <td>56</td>
+                            <td>2012/06/01</td>
+                            <td>$115,000</td>
+                        </tr>
+                        <tr>
+                            <td>Jennifer Acosta</td>
+                            <td>Junior Javascript Developer</td>
+                            <td>Edinburgh</td>
+                            <td>43</td>
+                            <td>2013/02/01</td>
+                            <td>$75,650</td>
+                        </tr>
+                        <tr>
+                            <td>Cara Stevens</td>
+                            <td>Sales Assistant</td>
+                            <td>New York</td>
+                            <td>46</td>
+                            <td>2011/12/06</td>
+                            <td>$145,600</td>
+                        </tr>
+                        <tr>
+                            <td>Hermione Butler</td>
+                            <td>Regional Director</td>
+                            <td>London</td>
+                            <td>47</td>
+                            <td>2011/03/21</td>
+                            <td>$356,250</td>
+                        </tr>
+                        <tr>
+                            <td>Lael Greer</td>
+                            <td>Systems Administrator</td>
+                            <td>London</td>
+                            <td>21</td>
+                            <td>2009/02/27</td>
+                            <td>$103,500</td>
+                        </tr>
+                        <tr>
+                            <td>Jonas Alexander</td>
+                            <td>Developer</td>
+                            <td>San Francisco</td>
+                            <td>30</td>
+                            <td>2010/07/14</td>
+                            <td>$86,500</td>
+                        </tr>
+                        <tr>
+                            <td>Shad Decker</td>
+                            <td>Regional Director</td>
+                            <td>Edinburgh</td>
+                            <td>51</td>
+                            <td>2008/11/13</td>
+                            <td>$183,000</td>
+                        </tr>
+                        <tr>
+                            <td>Michael Bruce</td>
+                            <td>Javascript Developer</td>
+                            <td>Singapore</td>
+                            <td>29</td>
+                            <td>2011/06/27</td>
+                            <td>$183,000</td>
+                        </tr>
+                        <tr>
+                            <td>Donna Snider</td>
+                            <td>Customer Support</td>
+                            <td>New York</td>
+                            <td>27</td>
+                            <td>2011/01/25</td>
+                            <td>$112,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- for leaveStatusChart -->
+    <?php
+    // Database configuration
+include '../db/db_conn.php';
+
+    // Fetch leave status counts
+    $sql = "SELECT status, COUNT(*) as count FROM leave_requests GROUP BY status";
+    $result = $conn->query($sql);
+
+    // Initialize counts
+    $status_counts = [
+        'Approved' => 0,
+        'Pending' => 0,
+        'Denied' => 0,
+    ];
+
+    while ($row = $result->fetch_assoc()) {
+        $status = $row['status'];
+        if (isset($status_counts[$status])) {
+            $status_counts[$status] = $row['count'];
+        }
+    }
+
+    $conn->close();
+    ?>
+</main>
+            <footer class="py-4 bg-black mt-auto border-top border-1 border-warning">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
                         <div class="text-muted">Copyright &copy; Your Website 2023</div>
@@ -336,11 +385,178 @@ $conn->close();
             </footer>
         </div>
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Doughnut chart data
+        const data = {
+            labels: ['Approved', 'Pending', 'Denied'],
+            datasets: [{
+                data: [
+                    <?php echo $status_counts['Approved']; ?>,
+                    <?php echo $status_counts['Pending']; ?>,
+                    <?php echo $status_counts['Denied']; ?>
+                ],
+                backgroundColor: ['#28a745', '#ffc107', '#dc3545']
+            }]
+        };
+
+        // Doughnut chart configuration
+        const leaveStatusCtx = document.getElementById('leaveStatusChart').getContext('2d');
+        const leaveStatusChart = new Chart(leaveStatusCtx, {
+            type: 'doughnut',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    position: 'top'
+                },
+                title: {
+                    display: true,
+                    text: 'Leave Request Statuses'
+                }
+            }
+        });
+        //for leaveStatusChart end
+
+        //for calendar only
+        // Global variable for calendar
+        let calendar; // Declare calendar variable globally
+
+function toggleCalendar() {
+    const calendarContainer = document.getElementById('calendarContainer');
+
+    // Toggle visibility of the calendar container
+    if (calendarContainer.style.display === 'none' || calendarContainer.style.display === '') {
+        calendarContainer.style.display = 'block';
+
+        // Initialize the calendar if it hasn't been initialized yet
+        if (!calendar) {
+            initializeCalendar();
+        }
+    } else {
+        calendarContainer.style.display = 'none';
+    }
+}
+
+// Function to initialize FullCalendar
+function initializeCalendar() {
+    const calendarEl = document.getElementById('calendar');
+    calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        height: 350,  // Set the height of the calendar to make it small
+        events: {
+            url: '../main/holiday.php',  // Endpoint for fetching events
+            method: 'GET',
+            failure: function() {
+                alert('There was an error fetching events!');
+            }
+        }
+    });
+
+    calendar.render();
+}
+
+// Set the current date when the page loads
+document.addEventListener('DOMContentLoaded', function () {
+    const currentDateElement = document.getElementById('currentDate');
+    const currentDate = new Date().toLocaleDateString(); // Get the current date
+    currentDateElement.textContent = currentDate; // Set the date text
+});
+
+// Close the calendar when clicking outside of it
+document.addEventListener('click', function(event) {
+    const calendarContainer = document.getElementById('calendarContainer');
+    const calendarButton = document.querySelector('button[onclick="toggleCalendar()"]');
+
+    // Hide the calendar if the user clicks outside of the calendar and button
+    if (!calendarContainer.contains(event.target) && !calendarButton.contains(event.target)) {
+        calendarContainer.style.display = 'none';
+    }
+});
+        //for calendar only end
+
+        //for leave request (error)
+ document.addEventListener('DOMContentLoaded', function () {
+    const calendarEl = document.getElementById('calendar');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth', // Basic view to confirm setup
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth'
+        }
+    });
+    calendar.render();
+    //console.log("Calendar initialized and rendered");
+
+
+            function fetchLeaveData(date) {
+                fetch(`leave_data.php?date=${date}`)
+                .then(response => response.json())
+                .then(data => {
+                    let leaveDetails = 'Employees on leave:\n';
+                    if (data.length > 0) {
+                        data.forEach(employee => {
+                            leaveDetails += `${employee.name} (${employee.leave_type})\n`;
+                        });
+                    } else {
+                        leaveDetails = 'No employees on leave for this day.';
+                    }
+                    alert(leaveDetails); // You can replace this with a modal or a more styled output
+                })
+                .catch(error => {
+                    console.error('Error fetching leave data:', error);
+                    alert('An error occurred while fetching leave data.');
+                });
+            }
+        });
+            //for leave request (error) end
+
+            function setCurrentTime() {
+    const currentTimeElement = document.getElementById('currentTime');
+    const currentDateElement = document.getElementById('currentDate');
+
+    // Get the current date and time in UTC
+    const currentDate = new Date();
+    
+    // Adjust time to Philippine Time (UTC+8)
+    currentDate.setHours(currentDate.getHours() + 0);
+
+    // Extract hours, minutes, and seconds
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const seconds = currentDate.getSeconds();
+
+    // Format hours, minutes, and seconds to ensure they are always two digits
+    const formattedHours = hours < 10 ? '0' + hours : hours;
+    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+    const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
+
+    // Set the current time
+    currentTimeElement.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+
+    // Set the current date
+    currentDateElement.textContent = currentDate.toLocaleDateString();
+}
+
+// Initial call to set the current time and date
+setCurrentTime();
+
+// Update the current time every second
+setInterval(setCurrentTime, 1000);
+
+    </script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'> </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../js/admin.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="../src/assets/demo/chart-area-demo.js"></script>
-    <script src="../src/assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
     <script src="../js/datatables-simple-demo.js"></script>
 
