@@ -67,16 +67,23 @@ $conn->close();
             background-color: #666;
             border: 1px solid #fff;
         }
-        .btn-primary {
-            background-color: #ffff00; /* Yellow */
-            color: #000; /* Black */
-            border: 1px solid #000; /* Black */
+        .btn-white {
+            background-color: #FFFFFF; /* Super white */
+            color: #000; /* Black text */
+            border: 1px solid #000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            border-radius: 5px; /* Default border radius */
         }
-        .btn-primary:hover {
-            background-color: #ffff66; /* Light Yellow */
-            color: #000; /* Black */
-            border: 1px solid #000; /* Black */
+
+        .btn-white:hover {
+            background: #E0E0E0; /* Light gray on hover for contrast */
+            color: black; /* Text color */
+            border: 2px solid #000; /* Slightly thicker border */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transform: translateY(-6px) scale(1.05); /* Increase raise effect */
         }
+
         .modal-content {
             background-color: #444;
         }
@@ -96,11 +103,11 @@ $conn->close();
         <table class="table table-striped text-center">
             <thead>
                 <tr>
-                    <th style="color: #ffff00;">Employee ID</th>
-                    <th style="color: #ffff00;">Name</th>
-                    <th style="color: #ffff00;">Role</th>
-                    <th style="color: #ffff00;">Department</th>
-                    <th style="color: #ffff00;">Remaining Leave</th>
+                    <th style="color: white;">Employee ID</th>
+                    <th style="color: white;">Name</th>
+                    <th style="color: white;">Role</th>
+                    <th style="color: white;">Department</th>
+                    <th style="color: white;">Remaining Leave</th>
                 </tr>
             </thead>
             <tbody id="leave-table">
@@ -115,7 +122,7 @@ $conn->close();
         </table>
     </div>
       <div class="text-center mb-5 mt-4">
-            <a href="../e_portal/employee_dashboard.php" class="btn btn-primary">Back to Dashboard</a>
+            <a href="../e_portal/employee_dashboard.php" class="btn btn-white">Back to Dashboard</a>
         </div>
 
 </body>

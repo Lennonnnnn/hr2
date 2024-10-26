@@ -14,7 +14,7 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #333; /* Dark background */
+            background: linear-gradient(to right, #333333, #a9a9a9, #696969);
             color: #777; /* Muted text color */
             padding: 50px;
         }
@@ -95,7 +95,7 @@
 </head>
 <body>
 
-    <h1>Select Login Type</h1>
+    <h1 style="  color: white; text-shadow: 0 0 10px cyan, 0 0 20px cyan, 0 0 40px cyan;">Select Login Type</h1>
     <div class="button-container">
         <button class="button-container login-button admin text-light" onclick="location.href='../main/adminlogin.php'">Admin Login</button>
         <button class="button-container login-button employee text-light" onclick="location.href='../e_portal/employee_login.php'">Employee Login</button>

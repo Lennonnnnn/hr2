@@ -118,6 +118,15 @@ if (isset($_GET['leave_id']) && isset($_GET['status'])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
+<style>
+    .btn {
+        transition: transform 0.3s ease;
+    }
+    
+    .btn:hover {
+        transform: translateY(-4px); /* Raise effect on hover */
+    }
+</style>
 <body class="bg-dark">
     <div class="container">
         <?php if (isset($_GET['status'])): ?>
@@ -190,7 +199,7 @@ if (isset($_GET['leave_id']) && isset($_GET['status'])) {
                                     <button class="btn btn-success btn-block" onclick="confirmAction('approve', <?php echo $row['leave_id']; ?>)">Approve</button>
                                 </div>
                                 <div class="col row no-gutters">
-                                    <button class="btn btn-danger btn-block" onclick="confirmAction('deny', <?php echo $row['leave_id']; ?>)">Deny</button>
+                                    <button class="btn btn-danger btn-block mt-2" onclick="confirmAction('deny', <?php echo $row['leave_id']; ?>)">Deny</button>
                                 </div>
                         </td>
                     </tr>
