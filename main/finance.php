@@ -47,6 +47,16 @@ $conn->close();
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/finance.css" rel="stylesheet">
 </head>
+<style>
+    .eval-btn {
+        transition: transform 0.3s, background-color 0.3s; /* Smooth transition */
+        border-radius: 25px;
+     }
+
+    .eval-btn:hover {
+        transform: translateY(-3px); /* Raise the button up */
+     }
+</style>
 
 <body>
     <h2>Finance Department Employee Evaluation</h2>

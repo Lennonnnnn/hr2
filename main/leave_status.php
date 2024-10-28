@@ -121,6 +121,7 @@ if (isset($_GET['leave_id']) && isset($_GET['status'])) {
 <style>
     .btn {
         transition: transform 0.3s ease;
+        border-radius: 50px;
     }
     
     .btn:hover {
@@ -212,7 +213,7 @@ if (isset($_GET['leave_id']) && isset($_GET['status'])) {
             </tbody>
         </table>
         <div class="text-center mb-5">
-            <a href="../main/index.php" class="btn btn-primary">Back to Dashboard</a>
+            <a href="../main/index.php" class="btn btn-primary" style="border-radius: 5px;">Back to Dashboard</a>
         </div>
     </div>
 

@@ -11,6 +11,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
+<style>
+    .btn {
+        transition: transform 0.3s ease;
+        border-radius: 10px;
+    }
+    
+    .btn:hover {
+        transform: translateY(-4px); /* Raise effect on hover */
+    }
+</style>
 
 <body class="bg-black">
     <div id="layoutAuthentication">

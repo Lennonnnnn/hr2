@@ -36,7 +36,7 @@
     gap: 30px;
     margin-top: 200px;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 25px;
     color: white;
     cursor: pointer
 }

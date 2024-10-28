@@ -47,6 +47,16 @@ $conn->close();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+<style>
+    .eval-btn {
+        transition: transform 0.3s, background-color 0.3s; /* Smooth transition */
+        border-radius: 25px;
+     }
+
+    .eval-btn:hover {
+        transform: translateY(-3px); /* Raise the button up */
+     }
+</style>
 <body>
 <body class="bg-secondary">
     <h2 class="text-light">IT Department Employee Evaluation</h2>

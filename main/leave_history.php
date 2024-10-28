@@ -58,9 +58,20 @@ while ($holiday_row = $holiday_result->fetch_assoc()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leave History</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/styles.css" rel="stylesheet" />
 </head>
-<body class="bg-dark">
+<style>
+    .btn {
+        transition: transform 0.3s ease;
+        border-radius: 10px;
+    }
+    
+    .btn:hover {
+        transform: translateY(-4px); /* Raise effect on hover */
+    }
+</style>
+<body class="bg-dark" style="height: 1100px;">
     <div class="container">
         <h2 class="text-center mt-3 text-light">Leave History</h2>
         
@@ -69,7 +80,7 @@ while ($holiday_row = $holiday_result->fetch_assoc()) {
             <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="Search by Employee Name, Leave ID, etc." value="<?php echo htmlspecialchars($searchTerm); ?>">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary bg-light" type="submit">Search</button>
+                    <button class="btn btn-outline-dark bg-light text-dark" type="submit">Search</button>
                 </div>
             </div>
         </form>
@@ -132,9 +143,12 @@ while ($holiday_row = $holiday_result->fetch_assoc()) {
         </table>
     </div>
         <div class="text-center mb-5">
-            <a href="../main/index.php" class="btn btn-primary">Back to Dashboard</a>
+            <a href="../main/index.php" class="btn btn-primary" >Back to Dashboard</a>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
 

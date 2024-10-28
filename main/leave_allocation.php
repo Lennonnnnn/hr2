@@ -82,6 +82,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Set Leave Allocations</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
+ <style>
+    .btn {
+        transition: transform 0.3s ease;
+         border-radius: 5px;
+    }
+    
+    .btn:hover {
+        transform: translateY(-4px); /* Raise effect on hover */
+    }
+ </style>
 <body class="bg-dark">
     <div class="container">
         <h2 class="text-center mt-5 text-light">Set Leave Allocations</h2>

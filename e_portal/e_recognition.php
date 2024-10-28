@@ -36,12 +36,12 @@
                                     <div class="certificate-body">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <img src="../lennon1.jpg" alt="Placeholder for Employee Picture" class="img-fluid rounded-circle">
+                                                <img src="../em.jpg" alt="Placeholder for Employee Picture" class="img-fluid rounded-circle">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <h3 class="text-center mb-4 text-yellow" id="employee-name-1">John Lennon D. Aguilor</h3>
+                                                <h3 class="text-center mb-4 text-yellow" id="employee-name-1">Lennon Uchiha</h3>
                                                 <p class="text-center mb-4 text-yellow" id="employee-role-1">Software Engineer</p>
                                                 <p class="text-center mb-4 text-yellow" id="employee-department-1">IT Department</p>
                                                 <p class="text-center mb-4 text-yellow">In recognition of outstanding contributions to the company.</p>
@@ -67,12 +67,12 @@
                                     <div class="certificate-body">  
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <img src="../lennon2.jpg" alt="Placeholder for Employee Picture" class="img-fluid rounded-circle">
+                                                <img src="../em.jpg" alt="Placeholder for Employee Picture" class="img-fluid rounded-circle">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <h3 class="text-center mb-4 text-yellow" id="employee-name-2">John Lennon D. Aguilor</h3>
+                                                <h3 class="text-center mb-4 text-yellow" id="employee-name-2">Wendel Ureta</h3>
                                                 <p class="text-center mb-4 text-yellow" id="employee-role-2">Marketing Manager</p>
                                                 <p class="text-center mb-4 text-yellow" id="employee-department-2">Marketing Department</p>
                                                 <p class="text-center mb-4 text-yellow">In recognition of outstanding contributions to the company.</p>
@@ -98,12 +98,12 @@
                                     <div class="certificate-body">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <img src="../lennon3.jpg" alt="Placeholder for Employee Picture" class="img-fluid rounded-circle">
+                                                <img src="../em.jpg" alt="Placeholder for Employee Picture" class="img-fluid rounded-circle">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <h3 class="text-center mb-4 text-yellow" id="employee-name-3">John Lennon D. Aguilor</h3>
+                                                <h3 class="text-center mb-4 text-yellow" id="employee-name-3">Thirdy Murillo</h3>
                                                 <p class="text-center mb-4 text-yellow" id="employee-role-3">Sales Representative</p>
                                                 <p class="text-center mb-4 text-yellow" id="employee-department-3">Sales Department</p>
                                                 <p class="text-center mb-4 text-yellow">In recognition of outstanding contributions to the company.</p>
@@ -187,11 +187,11 @@ document.querySelectorAll('[id^="download-certificate-"]').forEach(button => {
         // Set image source based on employee index
         let imgSrc;
         if (employeeIndex === '1') {
-            imgSrc = '../lennon1.jpg'; // Lennon Aguilor
+            imgSrc = '../em.jpg'; // Lennon Aguilor
         } else if (employeeIndex === '2') {
-            imgSrc = '../lennon2.jpg'; // Steffano Dizo
+            imgSrc = '../em.jpg'; // Steffano Dizo
         } else if (employeeIndex === '3') {
-            imgSrc = '../lennon3.jpg'; // Wendel Ureta
+            imgSrc = '../em.jpg'; // Wendel Ureta
         }
 
         generatePDF(employeeName, employeeRole, employeeDepartment, date, imgSrc);

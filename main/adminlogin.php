@@ -84,10 +84,10 @@ $conn->close();
                                                 <a class="small text-light" href="../main/password.php">Forgot Password?</a>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-between mt-2 mb-2">
-                                            <button type="submit" class="btn btn-primary w-100">Login</button>
+                                            <button type="submit" class="btn btn-primary w-100" style="border-radius: 50px;">Login</button>
                                         </div>
                                         <div class="text-center">
-                                            <div class="text-center mt-3 mb-0"> <a class="btn border-secondary w-100 text-light border border-1" href="../main/front.php">Back</a></div>
+                                            <div class="text-center mt-3 mb-0"> <a class="btn border-secondary w-100 text-light border border-1"style="border-radius: 50px;"  href=" ../main/front.php">Back</a></div>
                                         </div>
                                     </form>
                                 </div>

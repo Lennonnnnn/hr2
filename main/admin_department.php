@@ -46,23 +46,15 @@ a.btn, .department-toggle {
   background-color: #f8f9fa;
   color: #212529;
   border: 2px solid #212529;
-  border-radius: 8px;
+  border-radius: 50px;
   text-transform: uppercase;
   font-weight: bold;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, background-color 0.3s; /* Smooth transition for transform and background */
 }
 
 .btn:hover {
-  background-color: #343a40;
-  color: #fff;
-  transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
-}
-
-.btn:active {
-  transform: translateY(0);
-  box-shadow: none;
+  transform: translateY(-3px); /* Raise the button up */
+  background-color: #e2e6ea; /* Slightly darker background on hover */
 }
 
 /* Card design */
@@ -74,32 +66,20 @@ a.btn, .department-toggle {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-}
-
 .card-body {
-  background-color: darkslategrey;/* Adjusted for consistency */
+  background-color: #272b2e;/* Adjusted for consistency */
   padding: 20px;
-  color: #fff;
+  color:black;
   font-size: 1.1rem;
 }
 
 .card-footer {
-  background-color: #333; /* Default background */
-  color: #f1f1f1;
-  border: 2px solid #444;
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .card-footer:hover {
-  background-color: #709A29; /* Greenish background on hover */
-  color: #e6eed6; /* Light text color on hover */
   transform: translateY(-5px); /* Slight lift effect */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Shadow for depth */
 }
-
 
 .department-toggle {
   cursor: pointer;
@@ -110,8 +90,6 @@ a.btn, .department-toggle {
 }
 
 .collapse .card-body {
-    
-    background-color: black;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.125);
 
